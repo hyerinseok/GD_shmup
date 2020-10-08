@@ -13,10 +13,14 @@ public class PlayerScript : MonoBehaviour {
     public GameObject projectile;
     public Image healthBar;
     public KeyCode fireKey;
+
+    Boolean isHit = false;
+    int count = 0;
     
     // Start is called before the first frame update
     void Start() {
         //healthBar.fillAmount = health;
+        isHit = false;
     }
 
     // Update is called once per frame
@@ -50,6 +54,16 @@ public class PlayerScript : MonoBehaviour {
             //Instantiate(projectile, new Vector2(transform.position.x, transform.position.y + 0.5f), Quaternion.identity);
         }
         transform.localPosition = new Vector3(xPos, yPos, 0);
+        if(isHit == true)
+            Debug.Log("you're hit! counting : " + count);
+        if((isHit == true) && (count > 50))
+        {
+            this.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
+            this.GetComponent<Collider2D>().isTrigger = true;
+            isHit = false;
+            Debug.Log("not hit!");
+        }
+        count++;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -57,22 +71,23 @@ public class PlayerScript : MonoBehaviour {
 
         if (other.gameObject.tag == "EnemyProjectile")
         {
-            Destroy(other.gameObject);
             //health -= .1f;
             //healthBar.fillAmount = health;
-            foreach (Transform child in transform)
+            this.GetComponent<Collider2D>().isTrigger = false;
+            this.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+            foreach (Transform child in this.transform)
             {
                 child.gameObject.transform.SetParent(GameObject.Find("EnemyManager").transform);
-                child.GetComponent<Rigidbody2D>().isKinematic = true;
-                child.GetComponent<Rigidbody2D>().AddForce(GameObject.Find("Player").transform.position);
-                //child.GetComponent<Rigidbody2D>().isKinematic = false;
+                isHit = true;
+                count = 0;
             }
 
+            Destroy(other.gameObject);
         }
 
         if (other.gameObject.tag == "Enemy")
         {
-        other.gameObject.transform.SetParent(this.gameObject.transform);
+            other.gameObject.transform.SetParent(this.gameObject.transform);
         }
     }
 

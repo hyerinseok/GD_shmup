@@ -6,7 +6,7 @@ using UnityEngine;
 public class ProjectileScript : MonoBehaviour
 {
     public float               speed = 2f;
-    public int direction;
+    public int direction = -1;
     private Rigidbody2D        rb;
     public GameObject player;
 Vector3 dir, side;

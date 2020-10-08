@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,6 +12,8 @@ public class EnemyManagerScript : MonoBehaviour {
 
     public float speed = 2f;
     public float amplitude = 0.5f;
+
+    private GameObject canvas;
 
     // Start is called before the first frame update
     void Start()
@@ -28,14 +30,21 @@ public class EnemyManagerScript : MonoBehaviour {
 
             }
         }
+        canvas = GameObject.Find("Canvas");
+        canvas.SetActive(false);
     }
 
     void Update()
     {
+
         // move side to side
         float offset = Mathf.Sin(Time.time * speed) * amplitude / 2;
         transform.position = new Vector2(offset, transform.position.y);
-        
+        if(this.transform.childCount == 0)
+        {
+            Destroy(GameObject.Find("Player"));
+            canvas.SetActive(true);
+        }
     }
 
 }
