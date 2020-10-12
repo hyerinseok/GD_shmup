@@ -54,21 +54,27 @@ public class PlayerScript : MonoBehaviour {
             //Instantiate(projectile, new Vector2(transform.position.x, transform.position.y + 0.5f), Quaternion.identity);
         }
         transform.localPosition = new Vector3(xPos, yPos, 0);
+
         if(isHit == true)
-            Debug.Log("you're hit! counting : " + count);
-        if((isHit == true) && (count > 50))
+        {
+            //Debug.Log("you're hit! counting : " + count);
+        }
+
+        if((isHit == true) && (count > 100))
         {
             this.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
             this.GetComponent<Collider2D>().isTrigger = true;
             isHit = false;
-            Debug.Log("not hit!");
+            //Debug.Log("not hit!");
+            this.GetComponent<SpriteRenderer>().color = Color.white;
         }
         count++;
+
+        speed = .05f * Mathf.Pow(0.95f, this.transform.childCount);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-
         if (other.gameObject.tag == "EnemyProjectile")
         {
             //health -= .1f;
@@ -78,15 +84,25 @@ public class PlayerScript : MonoBehaviour {
             foreach (Transform child in this.transform)
             {
                 child.gameObject.transform.SetParent(GameObject.Find("EnemyManager").transform);
-                isHit = true;
-                count = 0;
+                child.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+                //child.gameObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
+                //child.gameObject.GetComponent<Rigidbody2D>().gravityScale = 1;
             }
+
+            isHit = true;
+            count = 0;
+            this.GetComponent<SpriteRenderer>().color = Color.red;
 
             Destroy(other.gameObject);
         }
 
-        if (other.gameObject.tag == "Enemy")
+        if (other.gameObject.tag == "Enemy" && isHit == false)
         {
+            other.gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            other.gameObject.GetComponent<Rigidbody2D>().angularVelocity = 0f;
+            other.gameObject.GetComponent<SpriteRenderer>().color = Color.grey;
+            //other.gameObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
+            //other.gameObject.GetComponent<Rigidbody2D>().gravityScale = 0;
             other.gameObject.transform.SetParent(this.gameObject.transform);
         }
     }

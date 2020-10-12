@@ -9,7 +9,7 @@ public class ProjectileScript : MonoBehaviour
     public int direction = -1;
     private Rigidbody2D        rb;
     public GameObject player;
-Vector3 dir, side;
+    Vector3 dir, side;
     // Start is called before the first frame update
     void Start()
     {

@@ -28,21 +28,57 @@ public class EnemyScript : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (other.gameObject.tag == "wall")
+        {
+            Debug.Log("hitwall1");
+            //this.gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            //this.gameObject.GetComponent<Rigidbody2D>().angularVelocity = 0f;
+        }
+
         if(other.gameObject.name == "RightWall") {
             Debug.Log("pushLeft");
-            GetComponent<Rigidbody2D>().AddForce(Vector2.left * 1.0F, ForceMode2D.Impulse);
+            this.GetComponent<Rigidbody2D>().AddForce(Vector2.left * 1.0F);
         }
-        else if(other.gameObject.name == "LeftWall") {
+        if(other.gameObject.name == "LeftWall") {
             Debug.Log("pushRight");
-            GetComponent<Rigidbody2D>().AddForce(Vector2.right * 1.0F, ForceMode2D.Impulse);
+            this.GetComponent<Rigidbody2D>().AddForce(Vector2.right * 1.0F);
         }
-        else if(other.gameObject.name == "TopWall") {
-            Debug.Log("pushDown");
-            GetComponent<Rigidbody2D>().AddForce(Vector2.down * 1.0F, ForceMode2D.Impulse);
+        if(other.gameObject.name == "TopWall") {
+            //Debug.Log("pushDown");
+            this.GetComponent<Rigidbody2D>().AddForce(Vector2.down * 1.0F);
         }
-        else if(other.gameObject.name == "BottomWall") {
-            Debug.Log("pushUp");
-            GetComponent<Rigidbody2D>().AddForce(Vector2.up * 1.0F, ForceMode2D.Impulse);
+        if(other.gameObject.name == "BottomWall") {
+            //Debug.Log("pushUp");
+            this.GetComponent<Rigidbody2D>().AddForce(Vector2.up * 1.0F);
         }
+
+    }
+    
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.tag == "wall")
+        {
+            Debug.Log("hitwall2");
+            this.gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            this.gameObject.GetComponent<Rigidbody2D>().angularVelocity = 0f;
+        }
+/*
+        if(other.gameObject.name == "RightWall") {
+            Debug.Log("pushLeft");
+            this.GetComponent<Rigidbody2D>().AddForce(Vector2.left * 1.0F, ForceMode2D.Impulse);
+        }
+        if(other.gameObject.name == "LeftWall") {
+            Debug.Log("pushRight");
+            this.GetComponent<Rigidbody2D>().AddForce(Vector2.right * 1.0F, ForceMode2D.Impulse);
+        }
+        if(other.gameObject.name == "TopWall") {
+            //Debug.Log("pushDown");
+            this.GetComponent<Rigidbody2D>().AddForce(Vector2.down * 1.0F, ForceMode2D.Impulse);
+        }
+        if(other.gameObject.name == "BottomWall") {
+            //Debug.Log("pushUp");
+            this.GetComponent<Rigidbody2D>().AddForce(Vector2.up * 1.0F, ForceMode2D.Impulse);
+        }
+*/
     }
 }
