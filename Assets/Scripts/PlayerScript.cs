@@ -60,7 +60,7 @@ public class PlayerScript : MonoBehaviour {
             //Debug.Log("you're hit! counting : " + count);
         }
 
-        if((isHit == true) && (count > 100))
+        if((isHit == true) && (count > 150))
         {
             this.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
             this.GetComponent<Collider2D>().isTrigger = true;
@@ -70,7 +70,20 @@ public class PlayerScript : MonoBehaviour {
         }
         count++;
 
-        speed = .05f * Mathf.Pow(0.95f, this.transform.childCount);
+        //slows down the player depending on how many planets it's carrying.
+        speed = .05f * Mathf.Pow(0.99f, this.transform.childCount);
+
+        foreach (Transform child in this.transform)
+        {
+            if(Vector3.Distance(transform.position, child.position) > 1.5)
+            {
+                Debug.Log("too far away");
+                child.gameObject.transform.SetParent(GameObject.Find("EnemyManager2").transform);
+                child.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+                child.gameObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+                child.gameObject.GetComponent<Rigidbody2D>().AddForce(this.transform.position, ForceMode2D.Impulse);
+            }
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -83,10 +96,10 @@ public class PlayerScript : MonoBehaviour {
             this.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
             foreach (Transform child in this.transform)
             {
-                child.gameObject.transform.SetParent(GameObject.Find("EnemyManager").transform);
+                child.gameObject.transform.SetParent(GameObject.Find("EnemyManager2").transform);
                 child.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
-                //child.gameObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
-                //child.gameObject.GetComponent<Rigidbody2D>().gravityScale = 1;
+                child.gameObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+                child.gameObject.GetComponent<Rigidbody2D>().AddForce(this.transform.position, ForceMode2D.Impulse);
             }
 
             isHit = true;
@@ -101,8 +114,7 @@ public class PlayerScript : MonoBehaviour {
             other.gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
             other.gameObject.GetComponent<Rigidbody2D>().angularVelocity = 0f;
             other.gameObject.GetComponent<SpriteRenderer>().color = Color.grey;
-            //other.gameObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
-            //other.gameObject.GetComponent<Rigidbody2D>().gravityScale = 0;
+            other.gameObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
             other.gameObject.transform.SetParent(this.gameObject.transform);
         }
     }

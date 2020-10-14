@@ -40,7 +40,7 @@ public class EnemyManagerScript : MonoBehaviour {
         // move side to side
         float offset = Mathf.Sin(Time.time * speed) * amplitude / 2;
         transform.position = new Vector2(offset, transform.position.y);
-        if(this.transform.childCount == 0)
+        if(this.transform.childCount == 0 && GameObject.Find("EnemyManager2").transform.childCount == 0)
         {
             Destroy(GameObject.Find("Player"));
             canvas.SetActive(true);
