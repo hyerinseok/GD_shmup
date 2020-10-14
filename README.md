@@ -1,12 +1,13 @@
 # SpaceMari
 
-Theme : Space
-Motivation : Katamari, Dodging games
-Game rules :
-Collect all Planets
-Dodge enemy projectiles
-The more you collect, the slower you get
-When you get hit, your collection scatters and you have to start over after a short cooldown.
+Theme : Space\
+Motivation : Katamari, Dodging games\
+Game rules :\
+<ul>
+<li>Collect all Planets\</li>
+<li>Dodge enemy projectiles\</li>
+<li>The more you collect, the slower you get\</li>
+<li>When you get hit, your collection scatters and you have to start over after a short cooldown.\</li>
 
 # Shmup Project for Game Development Fall 2020
 
