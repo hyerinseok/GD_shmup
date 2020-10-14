@@ -1,7 +1,7 @@
 # SpaceMari
 
 Theme : Space\
-Motivation : Katamari, Dodging games\
+Motivation : Katamari, Bullet Hell\
 Game rules :
 <ul>
 <li>Collect all Planets</li>
